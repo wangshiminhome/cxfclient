@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://cxf.apache.org/jaxws
+	http://cxf.apache.org/schemas/jaxws.xsd
+	http://cxf.apache.org/bindings/soap
+	http://cxf.apache.org/schemas/configuration/soap.xsd
+	
+	">
+	<!-- 加入cxf的配置文件 -->
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+	<!-- 配置客户端工厂 -->
+	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<!-- 需要一个服务类，但是注意这里需要的是服务的接口类 -->
+		<property name="serviceClass" value="com.wsm.cxf.dodept.IDoDept"></property>
+		<!-- wsdl的路径 -->
+		<property name="address"
+			value="http://localhost:8080/cxf02/service/dodept"></property>
+	</bean>
+
+	<!-- 配置服务器对象 -->
+	<bean id="dodeptservice" class="com.wsm.cxf.dodept.IDoDept"
+		factory-bean="clientFactory" factory-method="create" />
+		
+		
+	<!-- 配置客户端工厂 -->
+	<bean id="doempFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<!-- 需要一个服务类，但是注意这里需要的是服务的接口类 -->
+		<property name="serviceClass" value="com.wsm.cxf.doemp.IDoEmp"></property>
+		<!-- wsdl的路径 -->
+		<property name="address"
+			value="http://localhost:8080/cxf02/service/doemp"></property>
+	</bean>
+	<bean id="doempservice" class="com.wsm.cxf.doemp.IDoEmp"
+		factory-bean="doempFactory" factory-method="create" />
+	
+</beans>
+
+
+
+
